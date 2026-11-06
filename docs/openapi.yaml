@@ -1,0 +1,121 @@
+openapi: 3.0.3
+info:
+  title: remote4mac API
+  version: 0.1.0
+  description: LAN-only control API for opening configured streaming services and requesting a confirmed shutdown.
+servers:
+  - url: http://localhost:8765
+security: []
+paths:
+  /api/services:
+    get:
+      summary: List configured streaming services
+      responses:
+        '200':
+          description: Configured services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
+        '500':
+          $ref: '#/components/responses/ConfigurationError'
+  /api/services/{service_id}/open:
+    post:
+      summary: Open a configured service in Firefox
+      parameters:
+        - name: service_id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-z0-9-]+$'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+      responses:
+        '202':
+          description: Browser launch requested
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          description: Unknown service or route
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '500':
+          $ref: '#/components/responses/ConfigurationError'
+  /api/shutdown:
+    post:
+      summary: Request system shutdown after explicit confirmation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - confirm
+              properties:
+                confirm:
+                  type: boolean
+                  enum:
+                    - true
+              additionalProperties: false
+            example:
+              confirm: true
+      responses:
+        '202':
+          description: Shutdown request submitted to systemd
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+components:
+  schemas:
+    Service:
+      type: object
+      required:
+        - id
+        - name
+        - url
+      properties:
+        id:
+          type: string
+          pattern: '^[a-z0-9-]+$'
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+          pattern: '^https://'
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+  responses:
+    InvalidRequest:
+      description: Invalid JSON request or missing shutdown confirmation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnsupportedMediaType:
+      description: Request must use application/json
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ConfigurationError:
+      description: Invalid or unreadable service configuration
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

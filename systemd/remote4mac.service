@@ -1,0 +1,16 @@
+[Unit]
+Description=remote4mac Streaming Remote
+After=graphical-session.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/remote4mac
+ExecStart=/usr/bin/python3 -m remote4mac.app
+Restart=on-failure
+RestartSec=3
+Environment=PYTHONUNBUFFERED=1
+Environment=REMOTE4MAC_HOST=0.0.0.0
+Environment=REMOTE4MAC_PORT=8765
+
+[Install]
+WantedBy=default.target
