@@ -1,0 +1,22 @@
+[
+  {
+    "id": "netflix",
+    "name": "Netflix",
+    "url": "https://www.netflix.com/"
+  },
+  {
+    "id": "prime-video",
+    "name": "Amazon Prime Video",
+    "url": "https://www.primevideo.com/"
+  },
+  {
+    "id": "ard",
+    "name": "ARD Mediathek",
+    "url": "https://www.ardmediathek.de/"
+  },
+  {
+    "id": "joyn",
+    "name": "Joyn",
+    "url": "https://www.joyn.de/"
+  }
+]

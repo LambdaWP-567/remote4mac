@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f3f5f0">
+    <title>remote4mac</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/app.mjs"></script>
+  </head>
+  <body>
+    <main class="remote-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="remote4mac Startseite">
+          <span class="brand-mark" aria-hidden="true">r.</span>
+          <span>remote4mac</span>
+        </a>
+        <output class="connection" id="connection" aria-live="polite">
+          <span class="connection-dot" aria-hidden="true"></span>
+          <span id="connection-label">Verbinde</span>
+        </output>
+      </header>
+
+      <section class="control-panel" aria-labelledby="page-title">
+        <div class="eyebrow"><span class="eyebrow-rule"></span> DEIN BILDSCHIRM</div>
+        <div class="intro-row">
+          <h1 id="page-title">Streaming<br><span>starten.</span></h1>
+          <div class="screen-glyph" aria-hidden="true">
+            <span class="screen-glyph-frame"><span></span></span>
+            <span class="screen-glyph-stand"></span>
+          </div>
+        </div>
+
+        <div class="service-grid" id="services" aria-label="Streaming-Dienste">
+          <p class="loading-state" id="loading-state">Dienste werden geladen …</p>
+        </div>
+        <output class="message" id="message" aria-live="polite"></output>
+      </section>
+
+      <footer class="shutdown-row">
+        <div class="shutdown-copy">
+          <span class="shutdown-title">Server ausschalten</span>
+          <span class="shutdown-caption">Beendet die aktuelle Sitzung</span>
+        </div>
+        <button class="shutdown-button" id="shutdown-button" type="button" aria-label="Server ausschalten">
+          <span aria-hidden="true">⏻</span>
+        </button>
+      </footer>
+      <div class="confirmation-note">Der Ausschaltvorgang wird vor dem Start bestätigt.</div>
+    </main>
+  </body>
+</html>
